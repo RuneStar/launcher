@@ -66,7 +66,7 @@ private fun getArguments(frame: LaunchFrame, project: Project): List<String> {
     if (Files.notExists(prmFile)) {
         frame.log("Extracting '.prm' from '$jar' to '$prmFile'")
         ZipFile(jar.toFile()).use { zf ->
-            zf.getInputStream(zf.getEntry("client.prm")).use { input ->
+            zf.getInputStream(zf.getEntry(".prm")).use { input ->
                 Files.copy(input, prmFile)
             }
         }
