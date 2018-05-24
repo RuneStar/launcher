@@ -12,7 +12,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
-        <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 
         <kotlin.version>1.2.41</kotlin.version>
     </properties>
@@ -93,10 +92,11 @@
                 <artifactId>github-release-plugin</artifactId>
                 <version>1.2.0</version>
                 <configuration>
-                    <releaseName>Launcher ${project.version}-${maven.build.timestamp}</releaseName>
-                    <tag>${project.version}-${maven.build.timestamp}</tag>
+                    <releaseName>Launcher ${project.version}-${env.CIRCLE_BUILD_NUM}</releaseName>
+                    <tag>${project.version}-${env.CIRCLE_BUILD_NUM}</tag>
                     <repositoryId>runestar/launcher</repositoryId>
                     <prerelease>true</prerelease>
+                    <description>${env.CIRCLE_COMPARE_URL}</description>
                 </configuration>
             </plugin>
         </plugins>
