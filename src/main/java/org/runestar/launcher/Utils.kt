@@ -1,5 +1,7 @@
 package org.runestar.launcher
 
+import java.io.PrintWriter
+import java.io.StringWriter
 import java.net.URI
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
@@ -29,4 +31,10 @@ internal fun downloadFile(source: URI, destination: Path) {
     source.toURL().openStream().use { input ->
         Files.copy(input, destination, StandardCopyOption.REPLACE_EXISTING)
     }
+}
+
+internal fun Throwable.stackTraceToString(): String {
+    val sw = StringWriter()
+    printStackTrace(PrintWriter(sw))
+    return sw.toString()
 }

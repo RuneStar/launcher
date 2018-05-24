@@ -6,7 +6,6 @@ import org.kohsuke.github.GitHub
 import java.net.URI
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
-import java.nio.file.Path
 import java.util.zip.ZipFile
 import javax.swing.UIManager
 
@@ -17,16 +16,20 @@ fun main(args: Array<String>) {
 
     try {
         updateJar(frame, project)
-        launchJar(frame, project.jarPath, getArguments(frame, project))
-    } finally {
-        Thread.sleep(2000)
+        launchJar(frame, project)
+
+        Thread.sleep(2500)
         frame.dispose()
+    } catch (e: Exception) {
+        frame.setStatus("Error")
+        frame.log(e.stackTraceToString())
     }
 }
 
 private fun updateJar(frame: LaunchFrame, project: Project) {
     val sourcePath = project.jarSourcePath
     val jarPath = project.jarPath
+    val repoName = project.repoName
 
     frame.log("Reading source URL from '$sourcePath'")
     val sourceUrl = readTextFile(sourcePath)?.let { URI(it) }
@@ -35,16 +38,13 @@ private fun updateJar(frame: LaunchFrame, project: Project) {
     frame.log("Connecting to GitHub")
     val github = GitHub.connectAnonymously()
 
-    frame.log("Using repository '${project.repoName}'")
-    val repo = github.getRepository(project.repoName)
+    frame.log("Using repository '$repoName'")
+    val repo = github.getRepository(repoName)
 
     frame.log("Finding latest release")
     val latestRelease = repo.listReleases().first()
     val assets = latestRelease.assets
-    if (assets.size != 1) {
-        frame.log("Release must only have one asset")
-        throw IllegalStateException()
-    }
+    check(assets.size == 1) { "Release must only have one asset" }
     val asset = assets.first()
     val downloadUrl = URI(asset.browserDownloadUrl)
     frame.log("Latest URL: $downloadUrl")
@@ -77,9 +77,10 @@ private fun getArguments(frame: LaunchFrame, project: Project): List<String> {
             .map { it.trim() }
 }
 
-private fun launchJar(frame: LaunchFrame, jar: Path, jarArgs: List<String>) {
+private fun launchJar(frame: LaunchFrame, project: Project) {
+    val jarArgs = getArguments(frame, project)
     frame.log("Found arguments: $jarArgs")
-    val command = listOf("java", *jarArgs.toTypedArray(), "-jar", jar.toString())
+    val command = listOf("java", *jarArgs.toTypedArray(), "-jar", project.jarPath.toString())
     frame.log("Using command: ${command.joinToString(" ")}")
     val processBuilder = ProcessBuilder(command)
     processBuilder.start()
