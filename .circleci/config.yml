@@ -9,24 +9,16 @@ jobs:
     steps:
       - checkout
 
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "pom.xml" }}
-            - v1-dependencies-
-
-      - run: mvn install
+      - run:
+          name: Maven Install
+          command: mvn install --show-version --batch-mode --errors
 
       - run:
           name: GitHub Release
           command: |
             if [[ "${CIRCLE_BRANCH}" == "master" && -z "${CIRCLE_PULL_REQUEST}" ]]; then
-              mvn github-release:release -s .circleci/settings.xml
+              mvn github-release:release --settings .circleci/settings.xml
             fi
 
       - store_artifacts:
           path: target
-
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
