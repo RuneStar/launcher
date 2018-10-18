@@ -45,8 +45,7 @@ private fun updateJar(frame: LaunchFrame, project: Project) {
     val latestRelease = repo.listReleases().first()
     val assets = latestRelease.assets
     check(assets.size == 1) { "Release must only have one asset" }
-    val asset = assets.first()
-    val downloadUrl = URI(asset.browserDownloadUrl)
+    val downloadUrl = URI(assets.single().browserDownloadUrl)
     frame.log("Latest URL: $downloadUrl")
 
     if (sourceUrl == null || sourceUrl != downloadUrl || !verifyJar(jarPath)) {
@@ -80,9 +79,8 @@ private fun getArguments(frame: LaunchFrame, project: Project): List<String> {
 private fun launchJar(frame: LaunchFrame, project: Project) {
     val jarArgs = getArguments(frame, project)
     frame.log("Found arguments: $jarArgs")
-    val command = listOf("java", *jarArgs.toTypedArray(), "-jar", project.jarPath.toString())
-    frame.log("Using command: ${command.joinToString(" ")}")
-    val processBuilder = ProcessBuilder(command)
-    processBuilder.start()
+    val cmd = jarRunCommand(jarArgs, project.jarPath)
+    frame.log("Using command: ${cmd.command()}")
+    cmd.start()
     frame.log("Launched")
 }

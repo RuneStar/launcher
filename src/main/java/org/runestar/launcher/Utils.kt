@@ -6,6 +6,7 @@ import java.net.URI
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.util.jar.JarFile
 
@@ -37,4 +38,14 @@ internal fun Throwable.stackTraceToString(): String {
     val sw = StringWriter()
     printStackTrace(PrintWriter(sw))
     return sw.toString()
+}
+
+internal fun jarRunCommand(jvmArguments: List<String>, jar: Path): ProcessBuilder {
+    val javaExec = Paths.get(System.getProperty("java.home"), "bin", "java").toString()
+    val args = ArrayList<String>(jvmArguments.size + 3)
+    args.add(javaExec)
+    args.addAll(jvmArguments)
+    args.add("-jar")
+    args.add(jar.toString())
+    return ProcessBuilder(args)
 }
