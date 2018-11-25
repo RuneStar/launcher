@@ -31,6 +31,8 @@ private fun updateJar(frame: LaunchFrame, project: Project) {
     val jarPath = project.jarPath
     val repoName = project.repoName
 
+    Files.createDirectories(project.directory)
+
     frame.log("Reading source URL from '$sourcePath'")
     val sourceUrl = readTextFile(sourcePath)?.let { URI(it) }
     frame.log("Source URL: $sourceUrl")
