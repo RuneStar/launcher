@@ -1,0 +1,1 @@
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0\runestar-launcher.ps1" || pause

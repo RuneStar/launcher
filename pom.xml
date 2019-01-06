@@ -6,50 +6,34 @@
 
     <groupId>org.runestar</groupId>
     <artifactId>runestar-launcher</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.2.0-SNAPSHOT</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <kotlin.version>1.2.71</kotlin.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib</artifactId>
-            <version>${kotlin.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.kohsuke</groupId>
             <artifactId>github-api</artifactId>
-            <version>1.94</version>
+            <version>1.95</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${kotlin.version}</version>
-                <executions>
-                    <execution>
-                        <id>compile</id>
-                        <phase>process-sources</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
                 <configuration>
-                    <jvmTarget>1.8</jvmTarget>
+                    <release>9</release>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.2.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -57,10 +41,11 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <outputFile>runestar-launcher.jar</outputFile>
                             <minimizeJar>true</minimizeJar>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>org.runestar.launcher.Main</mainClass>
+                                    <mainClass>org.runestar.launcher.RuneStar</mainClass>
                                 </transformer>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer"/>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ApacheNoticeResourceTransformer">
@@ -91,13 +76,22 @@
             <plugin>
                 <groupId>de.jutzig</groupId>
                 <artifactId>github-release-plugin</artifactId>
-                <version>1.2.0</version>
+                <version>1.3.0</version>
                 <configuration>
-                    <releaseName>Launcher ${project.version}-${env.CIRCLE_BUILD_NUM}</releaseName>
+                    <releaseName>RuneStar Launcher ${project.version}-${env.CIRCLE_BUILD_NUM}</releaseName>
                     <tag>${project.version}-${env.CIRCLE_BUILD_NUM}</tag>
                     <repositoryId>runestar/launcher</repositoryId>
                     <prerelease>true</prerelease>
                     <description>${env.CIRCLE_COMPARE_URL}</description>
+                    <fileSets>
+                        <fileSet>
+                            <directory>${project.basedir}</directory>
+                            <includes>
+                                <include>runestar-launcher.tar.gz</include>
+                                <include>runestar-launcher.zip</include>
+                            </includes>
+                        </fileSet>
+                    </fileSets>
                 </configuration>
             </plugin>
         </plugins>

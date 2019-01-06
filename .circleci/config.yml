@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:8-jdk
+      - image: circleci/openjdk:11-jdk
 
     working_directory: ~/repo
     
@@ -10,8 +10,19 @@ jobs:
       - checkout
 
       - run:
-          name: Maven Install
-          command: mvn install --show-version --batch-mode --errors
+          name: Maven
+          command: mvn package --show-version --batch-mode --errors
+
+      - run:
+          name: Archive
+          command: |
+            mkdir runestar-launcher
+            cp README.md runestar-launcher
+            cp LICENSE runestar-launcher
+            cp client.prm runestar-launcher
+            cp runestar-launcher.* runestar-launcher
+            zip -r runestar-launcher.zip runestar-launcher
+            tar -xzvf runestar-launcher.tar.gz runestar-launcher
 
       - run:
           name: GitHub Release
@@ -19,6 +30,3 @@ jobs:
             if [[ "${CIRCLE_BRANCH}" == "master" && -z "${CIRCLE_PULL_REQUEST}" ]]; then
               mvn github-release:release --settings .circleci/settings.xml
             fi
-
-      - store_artifacts:
-          path: target
