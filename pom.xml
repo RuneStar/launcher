@@ -83,7 +83,7 @@
                     <repositoryId>runestar/launcher</repositoryId>
                     <prerelease>true</prerelease>
                     <description>${env.CIRCLE_COMPARE_URL}</description>
-                    <artifact></artifact>
+                    <artifact> </artifact>
                     <fileSet>
                         <directory>${project.basedir}</directory>
                         <includes>
