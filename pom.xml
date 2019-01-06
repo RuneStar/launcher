@@ -83,15 +83,14 @@
                     <repositoryId>runestar/launcher</repositoryId>
                     <prerelease>true</prerelease>
                     <description>${env.CIRCLE_COMPARE_URL}</description>
-                    <fileSets>
-                        <fileSet>
-                            <directory>${project.basedir}</directory>
-                            <includes>
-                                <include>runestar-launcher.tar.gz</include>
-                                <include>runestar-launcher.zip</include>
-                            </includes>
-                        </fileSet>
-                    </fileSets>
+                    <artifact></artifact>
+                    <fileSet>
+                        <directory>${project.basedir}</directory>
+                        <includes>
+                            <include>runestar-launcher.tar.gz</include>
+                            <include>runestar-launcher.zip</include>
+                        </includes>
+                    </fileSet>
                 </configuration>
             </plugin>
         </plugins>
