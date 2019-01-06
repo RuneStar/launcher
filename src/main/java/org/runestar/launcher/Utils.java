@@ -36,7 +36,7 @@ public final class Utils {
         try {
             (new JarFile(jar.toFile(), true)).close();
             return true;
-        } catch (Exception var3) {
+        } catch (Exception ignored) {
             return false;
         }
     }
