@@ -22,7 +22,7 @@ jobs:
             cp client.prm runestar-launcher
             cp runestar-launcher.* runestar-launcher
             zip -r runestar-launcher.zip runestar-launcher
-            tar -xzvf runestar-launcher.tar.gz runestar-launcher
+            tar -zcvf runestar-launcher.tar.gz runestar-launcher
 
       - run:
           name: GitHub Release
