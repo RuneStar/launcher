@@ -49,7 +49,7 @@ public final class Utils {
 
     public static String stackTraceToString(Throwable t) {
         StringWriter sw = new StringWriter();
-        t.printStackTrace(new PrintWriter((Writer)sw));
+        t.printStackTrace(new PrintWriter(sw));
         return sw.toString();
     }
 

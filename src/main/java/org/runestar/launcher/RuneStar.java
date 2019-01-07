@@ -10,7 +10,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UncheckedIOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,7 +28,7 @@ public final class RuneStar {
         try {
             DIRECTORY = Utils.getJarLocation(RuneStar.class).getParent();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new ExceptionInInitializerError(e);
         }
     }
 
@@ -48,7 +47,7 @@ public final class RuneStar {
         try {
             ICON = ImageIO.read(RuneStar.class.getResource("icon.png"));
         } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            throw new ExceptionInInitializerError(e);
         }
     }
 
@@ -77,10 +76,7 @@ public final class RuneStar {
         Files.createDirectories(DL_DIR);
 
         String sourceString = Utils.readTextFile(CLIENT_JAR_SOURCE);
-        URI sourceUrl = null;
-        if (sourceString != null) {
-            sourceUrl = new URI(sourceString);
-        }
+        URI sourceUrl = sourceString == null ? null : new URI(sourceString);
 
         frame.log("Connecting to GitHub");
         GitHub github = GitHub.connectAnonymously();
@@ -108,6 +104,8 @@ public final class RuneStar {
             ) {
                Files.copy(jarPrm, CLIENT_JAR_PRM, StandardCopyOption.REPLACE_EXISTING) ;
             }
+        } else {
+            frame.log(CLIENT_JAR.toString() + " is up to date");
         }
     }
 
@@ -119,11 +117,12 @@ public final class RuneStar {
 
         ProcessBuilder cmd = Utils.jarRunCommand(
                 CLIENT_JAR,
-                "-Duser.home=" + DIRECTORY.toString(),
+                "-Duser.home=" + DIRECTORY,
                 '@' + CLIENT_JAR_PRM.toString(),
                 '@' + USER_PRM.toString()
         );
-        frame.log("Using command: " + cmd.command());
+
+        frame.log("Running command: " + cmd.command());
         cmd.start();
     }
 }

@@ -9,5 +9,4 @@
 
 ### Running
 
-Execute `runestar-launcher.cmd` (Windows Batch File) or `runestar-launcher.command` (Shell Script) to download and use a self-contained copy of Java.
-Execute `runestar-launcher.jar` to use the system's version of Java.
+Execute `runestar-launcher.cmd` (Windows Batch File) or `runestar-launcher.command` (Shell Script) to download and use a self-contained copy of Java or execute `runestar-launcher.jar` to use your system's version of Java (9+)
