@@ -23,7 +23,7 @@ function Download-File($Uri, $OutFile) {
 }
 
 trap { Write-Error -ErrorRecord $_ -ErrorAction Continue ; exit 1 }
-$Host.ui.RawUI.WindowTitle = "Old School RuneScape"
+$Host.ui.RawUI.WindowTitle = "Launching RuneStar"
 $ProgressPreference = 'SilentlyContinue'
 $ErrorActionPreference = 'Stop'
 [Net.ServicePointManager]::SecurityProtocol = [Enum]::ToObject([Net.SecurityProtocolType], 3072) # TLS 1.2
@@ -53,7 +53,7 @@ if (!(Test-Path $jre_dir)) {
 	 --strip-debug `
 	 --compress=1 `
 	 --module-path "$temp_jdk_home\jmods" `
-	 --add-modules java.desktop,java.management,java.naming,java.prefs,java.sql `
+	 --add-modules java.desktop,java.management,java.naming,java.sql `
 	 --output "$jre_dir"
 
 	if ($LastExitCode) { exit $LastExitCode }

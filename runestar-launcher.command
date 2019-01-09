@@ -3,7 +3,7 @@
 set -eu
 
 download_file() {
-	if type curl >/dev/null 2>&1
+	if curl -V >/dev/null 2>&1
 	then
 		curl -Lfo "$@"
 	else
@@ -90,7 +90,7 @@ then
 	 --strip-debug \
 	 --compress=1 \
 	 --module-path "$temp_jdk_home\jmods" \
-	 --add-modules java.desktop,java.management,java.naming,java.prefs,java.sql \
+	 --add-modules java.desktop,java.management,java.naming,java.sql \
 	 --output "$jre_dir"
 
 	rm -rfv "$temp_dir"
