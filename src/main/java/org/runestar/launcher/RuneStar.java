@@ -56,6 +56,7 @@ public final class RuneStar {
     private RuneStar() {}
 
     public static void main(String[] args) throws Exception {
+        System.setProperty("https.protocols", "TLSv1.2");
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
         frame = new LaunchFrame();
