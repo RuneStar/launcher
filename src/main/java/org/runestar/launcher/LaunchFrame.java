@@ -1,6 +1,12 @@
 package org.runestar.launcher;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 public final class LaunchFrame extends JFrame {
 

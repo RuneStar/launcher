@@ -6,8 +6,8 @@ import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.UIManager;
+import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -52,8 +52,6 @@ public final class RuneStar {
     }
 
     private static LaunchFrame frame = null;
-
-    private RuneStar() {}
 
     public static void main(String[] args) throws Exception {
         System.setProperty("https.protocols", "TLSv1.2");
