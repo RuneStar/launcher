@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,15 +23,7 @@ public final class Utils {
     }
 
     public static String readTextFile(Path path) throws IOException {
-        if (Files.notExists(path)) {
-            return null;
-        } else {
-            return new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
-        }
-    }
-
-    public static void writeTextFile(Path path, String text) throws IOException {
-        Files.write(path, text.getBytes(StandardCharsets.UTF_8));
+        return Files.notExists(path) ? null : Files.readString(path);
     }
 
     public static boolean verifyJar(Path jar) {
@@ -56,10 +47,7 @@ public final class Utils {
         return sw.toString();
     }
 
-    public static ProcessBuilder jarRunCommand(
-            Path jar,
-            String... jvmArguments
-    ) {
+    public static ProcessBuilder jarRunCommand(Path jar, String... jvmArguments) {
         String javaExec = Paths.get(System.getProperty("java.home"), "bin", "java").toString();
         List<String> args = new ArrayList<>(jvmArguments.length + 3);
         args.add(javaExec);

@@ -95,7 +95,7 @@ public final class RuneStar {
             frame.log("Downloading " + downloadUrl + " to " + CLIENT_JAR);
             Utils.downloadFile(downloadUrl.toURL(), CLIENT_JAR);
             frame.log("Writing " + downloadUrl + " to " + CLIENT_JAR_SOURCE);
-            Utils.writeTextFile(CLIENT_JAR_SOURCE, downloadUrl.toString());
+            Files.writeString(CLIENT_JAR_SOURCE, downloadUrl.toString());
             frame.log("Copying contents of .prm in " + CLIENT_JAR + " to " + CLIENT_JAR_SOURCE);
             try (
                     ZipFile jar = new ZipFile(CLIENT_JAR.toFile());

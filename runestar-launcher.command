@@ -29,11 +29,12 @@ case $arch in
 	x86_64|amd64) arch=x64 ;;
 	x86|i[3456]86) arch=x32 ;;
 	armv8*) arch=aarch64 ;;
+	armv*) arch=arm ;;
 esac
 
 platform="$os-$arch"
 case $platform in
-	windows-x64|windows-x32|mac-x64|linux-x64|linux-aarch64) ;;
+	windows-x64|windows-x32|mac-x64|linux-x64|linux-aarch64|linux-arm) ;;
 	*)
 		echo "Unsupported platform: $platform"
 		exit 1
@@ -63,7 +64,7 @@ then
 	temp_jdk_archive="$temp_dir/jdk-$java_version-$platform$archive_extension"
 	if test ! -f "$temp_jdk_archive"
 	then
-		download_file "$temp_jdk_archive" "https://api.adoptopenjdk.net/v2/binary/nightly/openjdk$java_version?openjdk_impl=hotspot&release=latest&type=jdk&heap_size=normal&os=$os&arch=$arch"
+		download_file "$temp_jdk_archive" "https://api.adoptopenjdk.net/v2/binary/releases/openjdk$java_version?openjdk_impl=hotspot&release=latest&type=jdk&heap_size=normal&os=$os&arch=$arch"
 	fi
 
 	temp_jdk_dir="$temp_dir/jdk-$java_version-$platform/"
@@ -88,8 +89,8 @@ then
 	 --no-header-files \
 	 --no-man-pages \
 	 --strip-debug \
-	 --compress=1 \
-	 --module-path "$temp_jdk_home\jmods" \
+	 --compress=2 \
+	 --module-path "$temp_jdk_home/jmods" \
 	 --add-modules java.desktop,java.management,java.naming,java.sql \
 	 --output "$jre_dir"
 
