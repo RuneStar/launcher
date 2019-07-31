@@ -91,11 +91,9 @@ public final class RuneStar {
         URI downloadUrl = new URI(assets.get(0).getBrowserDownloadUrl());
         frame.log("Latest release URL is " + downloadUrl);
 
-        if (!downloadUrl.equals(sourceUrl) || !Utils.verifyJar(CLIENT_JAR)) {
+        if (!downloadUrl.equals(sourceUrl) || Files.notExists(CLIENT_JAR_SOURCE) || Files.notExists(CLIENT_JAR_PRM)) {
             frame.log("Downloading " + downloadUrl + " to " + CLIENT_JAR);
             Utils.downloadFile(downloadUrl.toURL(), CLIENT_JAR);
-            frame.log("Writing " + downloadUrl + " to " + CLIENT_JAR_SOURCE);
-            Files.writeString(CLIENT_JAR_SOURCE, downloadUrl.toString());
             frame.log("Copying contents of .prm in " + CLIENT_JAR + " to " + CLIENT_JAR_SOURCE);
             try (
                     ZipFile jar = new ZipFile(CLIENT_JAR.toFile());
@@ -103,6 +101,8 @@ public final class RuneStar {
             ) {
                Files.copy(jarPrm, CLIENT_JAR_PRM, StandardCopyOption.REPLACE_EXISTING) ;
             }
+            frame.log("Writing " + downloadUrl + " to " + CLIENT_JAR_SOURCE);
+            Files.writeString(CLIENT_JAR_SOURCE, downloadUrl.toString());
         } else {
             frame.log(CLIENT_JAR.toString() + " is up to date");
         }

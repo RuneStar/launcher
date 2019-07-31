@@ -12,7 +12,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.jar.JarFile;
 
 public final class Utils {
 
@@ -24,15 +23,6 @@ public final class Utils {
 
     public static String readTextFile(Path path) throws IOException {
         return Files.notExists(path) ? null : Files.readString(path);
-    }
-
-    public static boolean verifyJar(Path jar) {
-        try {
-            (new JarFile(jar.toFile(), true)).close();
-            return true;
-        } catch (Exception ignored) {
-            return false;
-        }
     }
 
     public static void downloadFile(URL source, Path destination) throws IOException {
