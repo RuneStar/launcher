@@ -91,7 +91,7 @@ then
 	 --strip-debug \
 	 --compress=2 \
 	 --module-path "$temp_jdk_home/jmods" \
-	 --add-modules java.desktop,java.management,java.naming,java.sql \
+	 --add-modules java.desktop,java.management,java.naming,java.sql,java.net.http \
 	 --output "$jre_dir"
 
 	rm -rfv "$temp_dir"
