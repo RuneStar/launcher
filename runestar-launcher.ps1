@@ -53,7 +53,7 @@ if (!(Test-Path $jre_dir)) {
 	 --strip-debug `
 	 --compress=2 `
 	 --module-path "$temp_jdk_home\jmods" `
-	 --add-modules java.desktop,java.management,java.naming,java.sql,java.net.http `
+	 --add-modules "java.desktop,java.management,java.naming,java.sql,java.net.http" `
 	 --output "$jre_dir"
 
 	if ($LastExitCode) { exit $LastExitCode }
